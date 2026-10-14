@@ -1,0 +1,12 @@
+# Secrets and local settings
+.env
+
+# Python virtual environment
+.venv/
+
+# Downloaded data (the pipeline downloads it again)
+data/
+
+# Python and Jupyter clutter
+__pycache__/
+.ipynb_checkpoints/
