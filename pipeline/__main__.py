@@ -12,6 +12,11 @@ from pipeline.db import get_connection, run_sql_file
 from pipeline.extract import ONS_URL, PRICE_PAID_URL, download
 from pipeline.load_raw import load_ons, load_price_paid
 
+from pipeline.councils import build_district_map
+from pipeline.transform import stage_sales
+
+SEED_FILE = Path("seeds/district_to_council.csv")
+
 RAW_DIR = Path("data/raw")
 SQL_DIR = Path("sql")
 
@@ -40,6 +45,15 @@ def run(years):
         for path in price_files:
             load_price_paid(conn, path, run_id)
         load_ons(conn, ons_file, run_id)
+                run_sql_file(conn, SQL_DIR / "015_staging_ons.sql")
+        unmatched = build_district_map(conn, SEED_FILE)
+        if unmatched:
+            print("These districts need a row in the seed file:")
+            for district in unmatched:
+                print(f"  {district}")
+            raise SystemExit(1)
+
+        stage_sales(conn, run_id, SQL_DIR / "020_staging.sql")
 
 
 def main():
