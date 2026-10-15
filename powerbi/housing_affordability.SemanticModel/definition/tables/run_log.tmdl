@@ -1,0 +1,122 @@
+table run_log
+	lineageTag: e048fbe7-6eaf-4195-9e8c-df777f42910d
+
+	column log_id
+		dataType: int64
+		formatString: 0
+		lineageTag: a9ba24a9-6caf-4a94-9b07-8379c9a726fd
+		summarizeBy: sum
+		sourceColumn: log_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column run_id
+		dataType: string
+		lineageTag: af25b4da-3bb6-43f2-9520-a4d9f08e6164
+		summarizeBy: none
+		sourceColumn: run_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column step
+		dataType: string
+		lineageTag: 37235f6c-b539-4721-9846-39c229361c9d
+		summarizeBy: none
+		sourceColumn: step
+
+		annotation SummarizationSetBy = Automatic
+
+	column source
+		dataType: string
+		lineageTag: c12ebb50-63d2-4cd1-b7cf-6a6d054d96f0
+		summarizeBy: none
+		sourceColumn: source
+
+		annotation SummarizationSetBy = Automatic
+
+	column rows_in
+		dataType: int64
+		formatString: 0
+		lineageTag: 5252e6d5-c743-4cf2-a326-f74c70815923
+		summarizeBy: sum
+		sourceColumn: rows_in
+
+		annotation SummarizationSetBy = Automatic
+
+	column rows_out
+		dataType: int64
+		formatString: 0
+		lineageTag: 49ab1130-2a8e-4a4c-b13d-d98a5d4c2bda
+		summarizeBy: sum
+		sourceColumn: rows_out
+
+		annotation SummarizationSetBy = Automatic
+
+	column rows_rejected
+		dataType: int64
+		formatString: 0
+		lineageTag: 8599d49e-193e-4f94-8261-fa288ba5f256
+		summarizeBy: sum
+		sourceColumn: rows_rejected
+
+		annotation SummarizationSetBy = Automatic
+
+	column started_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 230208dc-ae28-4502-9d7f-6afa63d45041
+		summarizeBy: none
+		sourceColumn: started_at
+
+		variation Variation
+			isDefault
+			relationship: 2da13a86-868a-4b86-bc48-5bd4d10df132
+			defaultHierarchy: LocalDateTable_a65cc7cc-b548-4918-8707-ad9cd382c0fd.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column finished_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 0ab9d2a8-9049-4f39-88a8-fbfae90e926a
+		summarizeBy: none
+		sourceColumn: finished_at
+
+		variation Variation
+			isDefault
+			relationship: 8223402f-c62b-4eda-97d3-84bcdc928561
+			defaultHierarchy: LocalDateTable_082eb61d-c387-460b-9d3d-83bae199e252.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column status
+		dataType: string
+		lineageTag: 4f3af8b2-7376-4996-8bed-cb242b0ca889
+		summarizeBy: none
+		sourceColumn: status
+
+		annotation SummarizationSetBy = Automatic
+
+	column message
+		dataType: string
+		lineageTag: e36c66a5-4b9e-4cb0-a7c5-504bbd2aca1f
+		summarizeBy: none
+		sourceColumn: message
+
+		annotation SummarizationSetBy = Automatic
+
+	partition run_log = m
+		mode: import
+		source =
+				let
+				    Source = PostgreSQL.Database(Server, Database),
+				    etl_run_log = Source{[Schema="etl",Item="run_log"]}[Data]
+				in
+				    etl_run_log
+
+	changedProperty = Name
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "wy_title",
+  "position": {
+    "x": 48,
+    "y": 80,
+    "z": 3000,
+    "width": 1480,
+    "height": 64,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Where it got worse, prices outran pay; wages did not fall",
+                    "textStyle": {
+                      "fontFamily": "Georgia",
+                      "fontSize": "28pt",
+                      "color": "#1E1E1E"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "left"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

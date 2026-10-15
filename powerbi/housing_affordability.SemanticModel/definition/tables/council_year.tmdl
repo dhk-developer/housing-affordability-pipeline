@@ -1,0 +1,139 @@
+table council_year
+	lineageTag: e2d28f9b-5596-4a79-94da-1b7d0932c146
+
+	column council_code
+		dataType: string
+		isHidden
+		lineageTag: c59e5b64-0335-4299-b375-bccf8a29e723
+		summarizeBy: none
+		sourceColumn: council_code
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column council_name
+		dataType: string
+		isHidden
+		lineageTag: 0d641e6c-05f4-456d-9c6d-db1f609a8137
+		summarizeBy: none
+		sourceColumn: council_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column ons_year
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c31fe4aa-cb21-4bc5-8503-829360abc9a9
+		summarizeBy: none
+		sourceColumn: ons_year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column sales
+		dataType: int64
+		formatString: 0
+		lineageTag: 08b9ad7c-3267-4a58-ab7c-8caffe6eb833
+		summarizeBy: sum
+		sourceColumn: sales
+
+		annotation SummarizationSetBy = Automatic
+
+	column median_price
+		dataType: double
+		lineageTag: b3daa645-5ab2-4e89-94ec-85c2ba586d56
+		summarizeBy: sum
+		sourceColumn: median_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_build_share
+		dataType: double
+		lineageTag: e25f4171-dd73-492e-bc7c-802e1568c8d7
+		summarizeBy: sum
+		sourceColumn: new_build_share
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column median_earnings
+		dataType: double
+		lineageTag: 7cfea9d9-d541-40e7-82ca-58d328088405
+		summarizeBy: sum
+		sourceColumn: median_earnings
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ratio
+		dataType: double
+		lineageTag: 9afe9d4a-aabd-4a7f-8461-a684e2e7e44e
+		summarizeBy: sum
+		sourceColumn: ratio
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ons_median_price
+		dataType: double
+		lineageTag: 2b321dd9-fa48-4f8f-ac87-539b9d4b9532
+		summarizeBy: sum
+		sourceColumn: ons_median_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ons_ratio
+		dataType: double
+		lineageTag: 29c918b2-1cb1-40e6-8fe3-6f7c0c4d5952
+		summarizeBy: sum
+		sourceColumn: ons_ratio
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pct_diff
+		dataType: double
+		lineageTag: f0e2c1de-2498-42d4-ba3d-323f0d4992fc
+		summarizeBy: sum
+		sourceColumn: pct_diff
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column low_volume
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: aeb11924-d929-45c3-935a-c60b83d2ad74
+		summarizeBy: none
+		sourceColumn: low_volume
+
+		annotation SummarizationSetBy = Automatic
+
+	partition council_year = m
+		mode: import
+		source =
+				let
+				    Source = PostgreSQL.Database(Server, Database),
+				    mart_council_year = Source{[Schema="mart",Item="council_year"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(mart_council_year,{{"ons_year", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	changedProperty = Name
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
