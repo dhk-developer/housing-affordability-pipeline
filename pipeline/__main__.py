@@ -45,7 +45,7 @@ def run(years):
         for path in price_files:
             load_price_paid(conn, path, run_id)
         load_ons(conn, ons_file, run_id)
-                run_sql_file(conn, SQL_DIR / "015_staging_ons.sql")
+        run_sql_file(conn, SQL_DIR / "015_staging_ons.sql")
         unmatched = build_district_map(conn, SEED_FILE)
         if unmatched:
             print("These districts need a row in the seed file:")
