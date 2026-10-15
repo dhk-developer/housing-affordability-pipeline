@@ -105,6 +105,7 @@ soupsieve==3.0.3
 SQLAlchemy==2.1.4
 stack-data==0.6.3
 statsmodels==0.15.0
+tabulate==0.10.0
 terminado==0.18.1
 tinycss2==1.5.1
 tornado==6.5.10
