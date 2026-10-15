@@ -5,6 +5,15 @@ Usage:
     python -m pipeline check
 """
 import argparse
+import uuid
+from pathlib import Path
+
+from pipeline.db import get_connection, run_sql_file
+from pipeline.extract import ONS_URL, PRICE_PAID_URL, download
+from pipeline.load_raw import load_ons, load_price_paid
+
+RAW_DIR = Path("data/raw")
+SQL_DIR = Path("sql")
 
 
 def parse_years(text):
@@ -18,18 +27,33 @@ def parse_years(text):
     return list(range(start, end + 1))
 
 
+def run(years):
+    run_id = uuid.uuid4()
+    print(f"Run {run_id} for {years[0]}-{years[-1]}")
+
+    price_files = [download(PRICE_PAID_URL.format(year=year), RAW_DIR / f"pp-{year}.csv") for year in years]
+    ons_file = download(ONS_URL, RAW_DIR / "ons_affordability.xlsx")
+
+    with get_connection() as conn:
+        for name in ["001_schemas.sql", "010_raw.sql"]:
+            run_sql_file(conn, SQL_DIR / name)
+        for path in price_files:
+            load_price_paid(conn, path, run_id)
+        load_ons(conn, ons_file, run_id)
+
+
 def main():
     parser = argparse.ArgumentParser(prog="pipeline", description="England housing affordability pipeline")
     commands = parser.add_subparsers(dest="command", required=True)
 
-    run = commands.add_parser("run", help="download, load and transform the data")
-    run.add_argument("--years", type=parse_years, required=True, help="a range such as 2019-2024")
+    run_parser = commands.add_parser("run", help="download, load and transform the data")
+    run_parser.add_argument("--years", type=parse_years, required=True, help="a range such as 2019-2024")
 
     commands.add_parser("check", help="run the data checks")
 
     args = parser.parse_args()
     if args.command == "run":
-        print(f"Would run for years: {args.years}")
+        run(args.years)
     elif args.command == "check":
         print("No checks yet")
 
