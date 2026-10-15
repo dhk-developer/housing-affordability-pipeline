@@ -1,0 +1,47 @@
+district_name,council_code,council_name,note
+BOURNEMOUTH,E06000058,"Bournemouth, Christchurch and Poole",Merged April 2019
+CHRISTCHURCH,E06000058,"Bournemouth, Christchurch and Poole",Merged April 2019
+POOLE,E06000058,"Bournemouth, Christchurch and Poole",Merged April 2019
+EAST DORSET,E06000059,Dorset,Merged into Dorset April 2019
+NORTH DORSET,E06000059,Dorset,Merged into Dorset April 2019
+PURBECK,E06000059,Dorset,Merged into Dorset April 2019
+WEST DORSET,E06000059,Dorset,Merged into Dorset April 2019
+WEYMOUTH AND PORTLAND,E06000059,Dorset,Merged into Dorset April 2019
+FOREST HEATH,E07000245,West Suffolk,Merged into West Suffolk April 2019
+ST EDMUNDSBURY,E07000245,West Suffolk,Merged into West Suffolk April 2019
+SUFFOLK COASTAL,E07000244,East Suffolk,Merged into East Suffolk April 2019
+WAVENEY,E07000244,East Suffolk,Merged into East Suffolk April 2019
+TAUNTON DEANE,E06000066,Somerset,Somerset West and Taunton 2019 then Somerset April 2023
+WEST SOMERSET,E06000066,Somerset,Somerset West and Taunton 2019 then Somerset April 2023
+SOMERSET WEST AND TAUNTON,E06000066,Somerset,Merged into Somerset April 2023
+MENDIP,E06000066,Somerset,Merged into Somerset April 2023
+SEDGEMOOR,E06000066,Somerset,Merged into Somerset April 2023
+SOUTH SOMERSET,E06000066,Somerset,Merged into Somerset April 2023
+AYLESBURY VALE,E06000060,Buckinghamshire,Merged into Buckinghamshire April 2020
+CHILTERN,E06000060,Buckinghamshire,Merged into Buckinghamshire April 2020
+SOUTH BUCKS,E06000060,Buckinghamshire,Merged into Buckinghamshire April 2020
+WYCOMBE,E06000060,Buckinghamshire,Merged into Buckinghamshire April 2020
+CORBY,E06000061,North Northamptonshire,Merged April 2021
+EAST NORTHAMPTONSHIRE,E06000061,North Northamptonshire,Merged April 2021
+KETTERING,E06000061,North Northamptonshire,Merged April 2021
+WELLINGBOROUGH,E06000061,North Northamptonshire,Merged April 2021
+DAVENTRY,E06000062,West Northamptonshire,Merged April 2021
+NORTHAMPTON,E06000062,West Northamptonshire,Merged April 2021
+SOUTH NORTHAMPTONSHIRE,E06000062,West Northamptonshire,Merged April 2021
+ALLERDALE,E06000063,Cumberland,Merged into Cumberland April 2023
+CARLISLE,E06000063,Cumberland,Merged into Cumberland April 2023
+COPELAND,E06000063,Cumberland,Merged into Cumberland April 2023
+BARROW-IN-FURNESS,E06000064,Westmorland and Furness,Merged April 2023
+EDEN,E06000064,Westmorland and Furness,Merged April 2023
+SOUTH LAKELAND,E06000064,Westmorland and Furness,Merged April 2023
+CRAVEN,E06000065,North Yorkshire,Merged into North Yorkshire April 2023
+HAMBLETON,E06000065,North Yorkshire,Merged into North Yorkshire April 2023
+HARROGATE,E06000065,North Yorkshire,Merged into North Yorkshire April 2023
+RICHMONDSHIRE,E06000065,North Yorkshire,Merged into North Yorkshire April 2023
+RYEDALE,E06000065,North Yorkshire,Merged into North Yorkshire April 2023
+SCARBOROUGH,E06000065,North Yorkshire,Merged into North Yorkshire April 2023
+SELBY,E06000065,North Yorkshire,Merged into North Yorkshire April 2023
+SHEPWAY,E07000112,Folkestone and Hythe,Renamed Folkestone and Hythe 2018
+WREKIN,E06000020,Telford and Wrekin,Land Registry uses the short name
+RHONDDA CYNON TAFF,W06000016,Rhondda Cynon Taf,Different spelling (Welsh council)
+THE VALE OF GLAMORGAN,W06000014,Vale of Glamorgan,Leading THE in Land Registry (Welsh council)
