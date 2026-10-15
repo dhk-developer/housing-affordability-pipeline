@@ -1,0 +1,58 @@
+table dim_council
+	lineageTag: eae4f52b-5c89-4a6b-b2f7-e7ba849650c9
+
+	column council_code
+		dataType: string
+		lineageTag: 753c4fbf-78e3-4431-a482-6f73711ef5f6
+		summarizeBy: none
+		sourceColumn: council_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column council_name
+		dataType: string
+		lineageTag: ce1143d7-c6f8-4a3d-935a-b5991da66af5
+		summarizeBy: none
+		sourceColumn: council_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Area = IF(LEFT(dim_council[council_code], 3) = "E09", "London", "Rest of England")
+		dataType: string
+		lineageTag: 666ecdbc-1f79-4048-91e4-fdacc8478c31
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'In scope' = NOT ISEMPTY(RELATEDTABLE(council_year))
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: e7eb125e-9bbc-4036-8d59-9c7cfbf72f7a
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ratio change value' = [Ratio change]
+		dataType: double
+		isHidden
+		lineageTag: 620cf264-56b0-48b1-a7a8-125cd85ab001
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_council = m
+		mode: import
+		source =
+				let
+				    Source = PostgreSQL.Database(Server, Database),
+				    core_dim_council = Source{[Schema="core",Item="dim_council"]}[Data]
+				in
+				    core_dim_council
+
+	changedProperty = Name
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

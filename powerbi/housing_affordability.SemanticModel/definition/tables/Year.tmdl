@@ -1,0 +1,25 @@
+table Year
+	lineageTag: f77a7c79-ae76-4db4-ace2-6c9a6c2fbd12
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 03f2d8f5-82c5-42f4-8fee-554d5156ccee
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Year = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromList({2019..2024}, Splitter.SplitByNothing(), {"Year"}),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Year", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

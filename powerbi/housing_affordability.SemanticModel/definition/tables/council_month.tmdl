@@ -1,0 +1,76 @@
+table council_month
+	lineageTag: 4b84fc40-dcc2-4c00-9952-bfa1e9827844
+
+	column council_code
+		dataType: string
+		isHidden
+		lineageTag: cc272e27-4196-4215-8091-29a3d40d19cd
+		summarizeBy: none
+		sourceColumn: council_code
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_start
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ae4c5ff9-1afc-4634-9262-a2d44f595deb
+		summarizeBy: none
+		sourceColumn: month_start
+
+		variation Variation
+			isDefault
+			relationship: 430230b4-9cb5-44b0-8995-63a1340eda7d
+			defaultHierarchy: LocalDateTable_7e2e04d0-124b-4126-bacc-14dab9952fa8.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column year
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c426ec8b-58d8-44bb-a728-48849652fa71
+		summarizeBy: none
+		sourceColumn: year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column sales
+		dataType: int64
+		formatString: 0
+		lineageTag: 1591c095-c9a1-43b2-a0a9-7daa691ad569
+		summarizeBy: sum
+		sourceColumn: sales
+
+		annotation SummarizationSetBy = Automatic
+
+	column median_price
+		dataType: double
+		lineageTag: 174c6ee8-acc0-4ec0-9f6a-d89d1cdb716f
+		summarizeBy: sum
+		sourceColumn: median_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition council_month = m
+		mode: import
+		source =
+				let
+				    Source = PostgreSQL.Database(Server, Database),
+				    mart_council_month = Source{[Schema="mart",Item="council_month"]}[Data]
+				in
+				    mart_council_month
+
+	changedProperty = Name
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,151 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "wy_table",
+  "position": {
+    "x": 1256,
+    "y": 664,
+    "z": 11000,
+    "width": 616,
+    "height": 328,
+    "tabOrder": 11000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_council"
+                    }
+                  },
+                  "Property": "council_name"
+                }
+              },
+              "queryRef": "dim_council.council_name",
+              "nativeQueryRef": "council_name",
+              "displayName": "Council"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Price growth %"
+                }
+              },
+              "queryRef": "_Measures.Price growth %",
+              "nativeQueryRef": "Price growth %",
+              "displayName": "Prices"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Earnings growth %"
+                }
+              },
+              "queryRef": "_Measures.Earnings growth %",
+              "nativeQueryRef": "Earnings growth %",
+              "displayName": "Pay"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Ratio change"
+                }
+              },
+              "queryRef": "_Measures.Ratio change",
+              "nativeQueryRef": "Ratio change",
+              "displayName": "Ratio change"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_Measures"
+                  }
+                },
+                "Property": "Ratio change"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Every council, least affordable change first'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Table of councils with price growth, earnings growth and change in ratio.'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

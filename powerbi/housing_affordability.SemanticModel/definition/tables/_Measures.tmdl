@@ -1,0 +1,145 @@
+table _Measures
+	lineageTag: 0f2916d4-8916-48fd-8b16-a8a562b7a920
+
+	measure 'Affordability ratio' =
+			VAR WithData = FILTER(VALUES(dim_council[council_code]), NOT ISBLANK(CALCULATE(MAX(council_year[ratio]))))
+			RETURN MEDIANX(WithData, CALCULATE(MAX(council_year[ratio])))
+		formatString: 0.00
+		lineageTag: df0e0dbe-f9d2-4f13-baeb-da3728390291
+
+	measure 'Ratio 2019' = CALCULATE([Affordability ratio], 'Year'[Year] = 2019)
+		formatString: 0.00
+		lineageTag: fd124311-cc2e-4420-a0cd-fe5dfe929b10
+
+	measure 'Ratio 2024' = CALCULATE([Affordability ratio], 'Year'[Year] = 2024)
+		formatString: 0.00
+		lineageTag: 5eb877b0-fdd1-4a3f-b1ba-7e5514327ae0
+
+	measure 'Ratio change' =
+			VAR r0 = [Ratio 2019]
+			VAR r1 = [Ratio 2024]
+			RETURN IF(ISBLANK(r0) || ISBLANK(r1), BLANK(), r1 - r0)
+		formatString: +0.00;-0.00;0.00
+		lineageTag: 4b82f449-0814-4a85-80a4-19d18520368c
+
+	measure 'Price growth %' =
+			VAR a = CALCULATE(MEDIAN(council_year[median_price]), 'Year'[Year] = 2024)
+			VAR b = CALCULATE(MEDIAN(council_year[median_price]), 'Year'[Year] = 2019)
+			RETURN IF(ISBLANK(a) || ISBLANK(b), BLANK(), DIVIDE(a, b) - 1)
+		formatString: +0%;-0%;0%
+		lineageTag: dd365f93-c1ef-4182-9ee2-7c8a336728ca
+
+	measure 'Earnings growth %' =
+			VAR a = CALCULATE(MEDIAN(council_year[median_earnings]), 'Year'[Year] = 2024)
+			VAR b = CALCULATE(MEDIAN(council_year[median_earnings]), 'Year'[Year] = 2019)
+			RETURN IF(ISBLANK(a) || ISBLANK(b), BLANK(), DIVIDE(a, b) - 1)
+		formatString: +0%;-0%;0%
+		lineageTag: 0cbddb6b-4dfd-4b19-a7f2-2e9cede4a080
+
+	measure 'Change rank' = RANKX(ALLSELECTED(dim_council), [Ratio change])
+		formatString: 0
+		lineageTag: aba2ad86-8d97-47c5-af8d-fe40dbc73d18
+
+	measure 'Councils worse off %' =
+			VAR WithData = FILTER(VALUES(dim_council[council_code]), NOT ISBLANK([Ratio change]))
+			RETURN DIVIDE(COUNTROWS(FILTER(WithData, [Ratio change] > 0)), COUNTROWS(WithData))
+		formatString: 0.0%
+		lineageTag: d40d8b0a-78ae-4720-ae54-05bd9e2f3610
+
+	measure 'Reconciliation pass rate' = DIVIDE(COUNTROWS(FILTER(council_year, ABS(council_year[pct_diff]) <= 2)), COUNTROWS(FILTER(council_year, NOT ISBLANK(council_year[pct_diff]))))
+		formatString: 0.0%
+		lineageTag: 3ad18094-b082-4081-a43a-cceffc8d660e
+
+	measure 'Median price' = MEDIAN(council_month[median_price])
+		formatString: £#,0
+		lineageTag: 72bb513e-b603-4cbf-976a-7f8cda40cd80
+
+	measure 'Price index' = DIVIDE([Median price], CALCULATE([Median price], 'Year'[Year] = 2019)) * 100
+		formatString: 0
+		lineageTag: 3ecd5718-5c4a-4b70-97a8-f82aa9466424
+
+	measure 'Median earnings' = MEDIAN(council_year[median_earnings])
+		formatString: £#,0
+		lineageTag: e91eb6ec-fab9-48bb-885c-af21ccfe58db
+
+	measure 'Earnings index' = DIVIDE([Median earnings], CALCULATE([Median earnings], 'Year'[Year] = 2019)) * 100
+		formatString: 0
+		lineageTag: a037f531-c4a4-468b-8cb4-ebf178eb3311
+
+	measure 'Ratio then and now' = FORMAT([Ratio 2019], "0.00") & "  →  " & FORMAT([Ratio 2024], "0.00")
+		lineageTag: 17acff5d-7890-406d-ad37-5422c4303072
+
+	measure 'Councils worse off' =
+			VAR WithData = FILTER(VALUES(dim_council[council_code]), NOT ISBLANK([Ratio change]))
+			RETURN FORMAT(COUNTROWS(FILTER(WithData, [Ratio change] > 0)), "0") & " of " & FORMAT(COUNTROWS(WithData), "0")
+		lineageTag: 6c4d704f-1eb4-4149-b7d7-cc60b67346ae
+
+	measure 'Prices vs pay' = FORMAT([Price growth %], "+0.0%") & "  vs  " & FORMAT([Earnings growth %], "+0.0%")
+		lineageTag: 51502741-19b3-4b91-b7e0-e8ebe7a78ab0
+
+	measure 'Change colour' = IF([Ratio change] > 0, "#B4442C", "#2D5A7B")
+		lineageTag: 83282a57-45d2-4458-88f9-bde18228f851
+
+	measure 'Dot colour' = IF([Price growth %] > [Earnings growth %], "#B4442C", "#A8A196")
+		lineageTag: f6d1afc9-a7c7-4f9b-ab1b-0fb4ab263e8a
+
+	measure 'Rows loaded' =
+			VAR lastId = CALCULATE(MAX(run_log[log_id]), ALL(run_log), run_log[step] = "staging")
+			VAR runId = CALCULATE(FIRSTNONBLANK(run_log[run_id], 1), ALL(run_log), run_log[log_id] = lastId)
+			RETURN CALCULATE(SUM(run_log[rows_in]), run_log[run_id] = runId, run_log[step] = "staging")
+		formatString: #,0
+		lineageTag: c1b5606b-d196-4ba1-8b14-0d36f3708fbb
+
+	measure 'Rows kept' =
+			VAR lastId = CALCULATE(MAX(run_log[log_id]), ALL(run_log), run_log[step] = "staging")
+			VAR runId = CALCULATE(FIRSTNONBLANK(run_log[run_id], 1), ALL(run_log), run_log[log_id] = lastId)
+			RETURN CALCULATE(SUM(run_log[rows_out]), run_log[run_id] = runId, run_log[step] = "staging")
+		formatString: #,0
+		lineageTag: 8bc030dd-4b4c-414f-b8f5-bc031ac790d9
+
+	measure 'Rows rejected' =
+			VAR lastId = CALCULATE(MAX(run_log[log_id]), ALL(run_log), run_log[step] = "staging")
+			VAR runId = CALCULATE(FIRSTNONBLANK(run_log[run_id], 1), ALL(run_log), run_log[log_id] = lastId)
+			RETURN CALCULATE(SUM(run_log[rows_rejected]), run_log[run_id] = runId, run_log[step] = "staging")
+		formatString: #,0
+		lineageTag: 832e95e4-0638-4e54-865f-f2a08a102752
+
+	measure 'Checks passed' =
+			VAR lastId = CALCULATE(MAX(run_log[log_id]), ALL(run_log), run_log[step] = "check")
+			VAR runId = CALCULATE(FIRSTNONBLANK(run_log[run_id], 1), ALL(run_log), run_log[log_id] = lastId)
+			VAR total = CALCULATE(COUNTROWS(run_log), ALL(run_log), run_log[run_id] = runId, run_log[step] = "check")
+			VAR passed = CALCULATE(COUNTROWS(run_log), ALL(run_log), run_log[run_id] = runId, run_log[step] = "check", run_log[status] = "ok")
+			RETURN passed & " of " & total
+		lineageTag: a0844e25-95af-4415-8cdf-8680f9721104
+
+	measure 'Check result' =
+			VAR lastId = CALCULATE(MAX(run_log[log_id]), ALL(run_log), run_log[step] = "check")
+			VAR runId = CALCULATE(FIRSTNONBLANK(run_log[run_id], 1), ALL(run_log), run_log[log_id] = lastId)
+			VAR rowsHere = CALCULATE(COUNTROWS(run_log), run_log[run_id] = runId, run_log[step] = "check")
+			VAR failed = CALCULATE(COUNTROWS(run_log), run_log[run_id] = runId, run_log[step] = "check", run_log[status] <> "ok")
+			RETURN IF(rowsHere > 0, IF(failed > 0, "Failed", "Passed"))
+		lineageTag: d13b654b-0245-4cef-94b6-3832954ea882
+
+	measure 'Last pipeline run' = FORMAT(CALCULATE(MAX(run_log[finished_at]), ALL(run_log)), "d mmm yyyy, HH:mm")
+		lineageTag: a6968fd2-dc5a-4477-adaf-a7ebed612dd8
+
+	column Column1
+		dataType: string
+		isHidden
+		lineageTag: d2c07a62-0a5f-4c32-876e-7235516f9081
+		summarizeBy: none
+		sourceColumn: Column1
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measures = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

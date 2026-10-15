@@ -1,0 +1,31 @@
+relationship 430230b4-9cb5-44b0-8995-63a1340eda7d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: council_month.month_start
+	toColumn: LocalDateTable_7e2e04d0-124b-4126-bacc-14dab9952fa8.Date
+
+relationship 2da13a86-868a-4b86-bc48-5bd4d10df132
+	joinOnDateBehavior: datePartOnly
+	fromColumn: run_log.started_at
+	toColumn: LocalDateTable_a65cc7cc-b548-4918-8707-ad9cd382c0fd.Date
+
+relationship 8223402f-c62b-4eda-97d3-84bcdc928561
+	joinOnDateBehavior: datePartOnly
+	fromColumn: run_log.finished_at
+	toColumn: LocalDateTable_082eb61d-c387-460b-9d3d-83bae199e252.Date
+
+relationship AutoDetected_5c055f9d-ed74-4dd0-8cfc-007c0502921d
+	fromColumn: council_year.council_code
+	toColumn: dim_council.council_code
+
+relationship AutoDetected_12599e72-fc17-4998-a821-a9780f933348
+	fromColumn: council_month.council_code
+	toColumn: dim_council.council_code
+
+relationship 4e446d52-f27f-46c8-e16e-1486d8ab5228
+	fromColumn: council_year.ons_year
+	toColumn: Year.Year
+
+relationship e837e91f-aed6-ef24-6ed7-382a4a7cb0d1
+	fromColumn: council_month.year
+	toColumn: Year.Year
+

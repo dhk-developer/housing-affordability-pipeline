@@ -1,0 +1,28 @@
+model Model
+	culture: en-GB
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-GB
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["Server","Database","council_year","council_month","dim_council","run_log","Year","_Measures"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table council_year
+ref table council_month
+ref table DateTableTemplate_e4d3686c-eeb0-4beb-91e1-845eb5ef438f
+ref table LocalDateTable_7e2e04d0-124b-4126-bacc-14dab9952fa8
+ref table dim_council
+ref table run_log
+ref table LocalDateTable_a65cc7cc-b548-4918-8707-ad9cd382c0fd
+ref table LocalDateTable_082eb61d-c387-460b-9d3d-83bae199e252
+ref table Year
+ref table _Measures
+
+ref cultureInfo en-GB
+
