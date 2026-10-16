@@ -10,3 +10,11 @@ data/
 # Python and Jupyter clutter
 __pycache__/
 .ipynb_checkpoints/
+
+# Power BI local settings and cache
+powerbi/**/.pbi/cache.abf
+powerbi/**/.pbi/localSettings.json
+
+# Ignore local settings and cache for Power BI
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
